@@ -52,8 +52,51 @@ class SLL:
             print(temp.item,end=' ')
             temp = temp.next
             
+    
+    def delete_first(self):
+        if self.start is not None:
+            self.start=self.start.next   
+    
+    def delete_last(self):
+        if self.start is None:
+            pass         
+        elif self.start.next is None:
+            self.start = None
+        else:
+            temp=self.start
+            while temp.next.next is not None:
+                temp=temp.next
+            temp.next = None
+    
+    def delete_item(self,data):
+        if self.start is None:
+            pass
+        elif self.start.next is None:
+            if self.start.item == data:
+                self.start = None
+        else:
+            temp = self.start
+            if temp.item == data:
+                self.start = temp.next
+            else:
+                while temp.next is not None:
+                    if temp.next.item == data:
+                        temp.next = temp.next.next
+                        break
+                    temp = temp.next
             
             
+class SLLIterable:
+    def __init__(self,start):
+        self.current = start
+    def __iter__(self):
+        return self
+    def __next__(self):
+        if not self.current: 
+            raise StopIteration                
+        data=self.current.item
+        self.current=self.current.next
+        return data
         
 mylist = SLL()
 mylist.at_start(23)
@@ -63,4 +106,6 @@ nodeA = mylist.search(42)
 mylist.insert_after(nodeA, 81)
 mylist.at_start(312)
 mylist.at_last(142)
+mylist.print_list()
+mylist.delete_item(81)
 mylist.print_list()
