@@ -1,66 +1,94 @@
+#Doubly linked list
+
+# PREV -> ITEM -> NEXT
+
 class Node:
-    def __init__(self, data):
-        self.data = data
-        self.prev = None
-        self.next = None
-
-class DoublyLinkedList:
-    def __init__(self):
-        self.head = None
-
-    def insert_at_beginning(self, data):
-        new_node = Node(data)
-        if self.head is None:
-            self.head = new_node
+    def __init__(self,prev=None,item=None,next=None):
+        self.prev = prev
+        self.item = item
+        self.next = next
+        
+class DLL:
+    def __init__(self,start=None):
+        self.start = start
+        
+    def is_empty(self):
+        return self.start==None
+    
+    def at_start(self,data):
+        n = Node(None,data,self.start)
+        if not self.is_empty():
+            self.start.prev = n
+        self.start = n
+    
+    def at_last(self,data):
+        temp = self.start
+        if self.start != None:
+            while temp.next != None:
+                temp = temp.next
+                
+        n = Node(temp,data,None)
+        if temp == None:
+            self.start = n
         else:
-            new_node.next = self.head
-            self.head.prev = new_node
-            self.head = new_node
+            temp.next = n
+        
+    def search(self,data):
+        temp = self.start
+        while temp is not None:
+            if text.item == data:
+                return temp
+            temp = temp.next
+        return None   
+    
+    def insert_after(self,temp,data):
+        if temp is not None:
+            n = Node(temp,data,temp.next)
+            if temp.next is not None:
+                temp.next.prev=n
+            temp.next = n
+    
+    def print_list(self):
+        temp = self.start
+        while temp is not None:
+            print(temp.item,end=' ')
+            temp = temp.next
+            
+    def delete_first(self):
+        if self.start is not None:
+            self.start=self.start.next
+            if self.start is not None:
+                self.start.prev = None
+    
+    def delete_last(self):
+        if self.start is None:
+            pass 
+        elif self.start.next is None:
+            self.start = None
+        else:
+            temp=self.start
+            while temp.next.next is not None:
+                temp=temp.next
+            temp.prev.next = None
+            
+    def delete_item(self,data):
+        if self.start is None:
+            pass
 
-    def insert_at_end(self, data):
-        new_node = Node(data)
-        if self.head is None:
-            self.head = new_node
-            return
-        last = self.head
-        while last.next:
-            last = last.next
-        last.next = new_node
-        new_node.prev = last
+        else:
+            temp = self.start
+            while temp is not None:
+                if temp.item == data:
+                    if temp.next is not None:
+                        temp.next.prev = temp.prev
+                    if temp.prev is not None:
+                        temp.prev.next = temp.next
+                    else:
+                        self.start = temp.next
+                    break
+                temp = temp.next
+                    
+                    
+                    
 
-    def delete_node(self, node):
-        if self.head is None or node is None:
-            return
-
-        if self.head == node:
-            self.head = node.next
-
-        if node.next:
-            node.next.prev = node.prev
-
-        if node.prev:
-            node.prev.next = node.next
-
-        del node
-
-    def display(self):
-        nodes = []
-        current = self.head
-        while current:
-            nodes.append(current.data)
-            current = current.next
-        print("Doubly Linked List:", nodes)
-
-# Example Usage
-dll = DoublyLinkedList()
-
-# Insertion
-dll.insert_at_beginning(3)
-dll.insert_at_end(5)
-dll.insert_at_beginning(2)
-dll.insert_at_end(7)
-dll.display()  # Output: Doubly Linked List: [2, 3, 5, 7]
-
-# Deletion
-dll.delete_node(dll.head.next)  # Deletes the node with data 3
-dll.display()  # Output: Doubly Linked List: [2, 5, 7]
+         
