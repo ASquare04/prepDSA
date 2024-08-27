@@ -55,6 +55,10 @@ class Stack:
         print(self.items)
         
 
+#Using Inherit List
+
+
+
 S = Stack()
 
 S.push(5)
